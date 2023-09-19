@@ -1,0 +1,14 @@
+[tool.poetry]
+name = "mnist-sandbox"
+version = "0.1.0"
+description = "MNIST sandbox for MLops MSU course 2023"
+authors = ["rw404 <trapeznikovmisha@mail.ru>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
