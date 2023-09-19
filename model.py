@@ -12,6 +12,9 @@ class MNISTNet(pl.LightningModule):
         super().__init__()
         """ Define computations here. """
 
+        self.training_step_outputs = []
+        self.validation_step_outputs = []
+
         self.lr = learning_rate
         self.conv1 = nn.Conv2d(1, 32, 3, padding="same")
         self.conv2 = nn.Conv2d(32, 64, 3, padding="same")
@@ -45,14 +48,18 @@ class MNISTNet(pl.LightningModule):
         x, y = batch
 
         y_logit = self(x)
-        loss = F.cross_entropy(y_logit, y)
+        loss = F.cross_entropy(y_logit, y) 
 
         classes = y_logit.data.max(1)[1]
         incorrect = classes.ne(y.long().data).cpu().sum()
         err = incorrect.item()/y.numel()
         acc = torch.tensor(1.0-err)
 
-        return {'loss': loss, 'acc': acc}
+        output = {'loss': loss, 'acc': acc}
+
+        self.training_step_outputs.append(output)
+
+        return output
 
     # REQUIRED
     def configure_optimizers(self) -> Tuple[torch.optim.Optimizer, torch.optim.lr_scheduler._LRScheduler]:
@@ -97,16 +104,20 @@ class MNISTNet(pl.LightningModule):
         val_acc = torch.tensor(1.0-err)
 
         loss = F.cross_entropy(y_logit, y)
+        output = {'val_loss': loss, 'val_acc': val_acc}
 
-        return {'val_loss': loss, 'val_acc': val_acc}
+        self.validation_step_outputs.append(output)
+
+        return output
 
     # OPTIONAL
-    def training_epoch_end(self,
-                           outputs: dict) -> None:
+    def on_train_epoch_end(self) -> None:
         """log and display average train loss and accuracy across epoch"""
-        avg_loss = torch.stack([x['loss'] for x in outputs]).mean()
-        avg_acc = torch.stack([x['acc'] for x in outputs]).mean()
+        avg_loss = torch.stack([x['loss'] for x in self.training_step_outputs]).mean()
+        avg_acc = torch.stack([x['acc'] for x in self.training_step_outputs]).mean()
         Accuracy = 100 * avg_acc.item()
+
+        self.training_step_outputs.clear()
 
         print(f"| Train_loss: {avg_loss:.5f} Train_acc: {Accuracy}%")
 
@@ -116,12 +127,13 @@ class MNISTNet(pl.LightningModule):
                  on_epoch=True, on_step=False)
 
     # OPTIONAL
-    def validation_epoch_end(self,
-                             outputs: dict) -> None:
+    def on_validation_epoch_end(self) -> None:
         """log and display average val loss and accuracy"""
-        avg_loss = torch.stack([x['val_loss'] for x in outputs]).mean()
-        avg_acc = torch.stack([x['val_acc'] for x in outputs]).mean()
+        avg_loss = torch.stack([x['val_loss'] for x in self.validation_step_outputs]).mean()
+        avg_acc = torch.stack([x['val_acc'] for x in self.validation_step_outputs]).mean()
         Accuracy = 100 * avg_acc.item()
+
+        self.validation_step_outputs.clear()
 
         print(
             f"[Epoch {self.trainer.current_epoch:3}] Val_loss: {avg_loss:.5f} Val_accuracy: {Accuracy}%", end=" ")
