@@ -40,3 +40,5 @@ Thumbs.db
 ######################
 MNIST
 __pycache__
+dist
+sota_mnist_cnn.pth
