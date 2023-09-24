@@ -11,6 +11,7 @@ torch = "^2.0.1"
 pytorch-lightning = "^2.0.9"
 torchvision = "^0.15.2"
 tqdm = "^4.66.1"
+pre-commit = "^3.4.0"
 
 
 [build-system]
