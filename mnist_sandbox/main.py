@@ -6,6 +6,7 @@ from eval import model_evaluate
 from model import MNISTNet
 from train import train_m
 
+
 warnings.filterwarnings("ignore")
 
 n_epochs = 3

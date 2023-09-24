@@ -133,9 +133,7 @@ class MNISTNet(pl.LightningModule):
         avg_loss = torch.stack(
             [x["val_loss"] for x in self.validation_step_outputs]
         ).mean()
-        avg_acc = torch.stack(
-            [x["val_acc"] for x in self.validation_step_outputs]
-        ).mean()
+        avg_acc = torch.stack([x["val_acc"] for x in self.validation_step_outputs]).mean()
         Accuracy = 100 * avg_acc.item()
 
         self.validation_step_outputs.clear()

@@ -7,9 +7,7 @@ from tqdm import tqdm
 
 
 @torch.no_grad()
-def model_evaluate(
-    model: pl.LightningModule, test_loader: DataLoader
-) -> Tuple[int, int]:
+def model_evaluate(model: pl.LightningModule, test_loader: DataLoader) -> Tuple[int, int]:
     correct = 0
     total = 0
     for img, label in tqdm(test_loader):

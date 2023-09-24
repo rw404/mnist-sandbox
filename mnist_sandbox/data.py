@@ -1,6 +1,7 @@
 import torchvision
 from torch.utils.data import DataLoader, random_split
 
+
 batch_size_train = 64
 batch_size_test = 10
 
