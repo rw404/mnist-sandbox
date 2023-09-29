@@ -38,16 +38,7 @@ jobs:
         with:
           name: DocumentationHTML
           path: docs/_build/html/
-
-  deploy_gh_pages:
-    needs: build_docs
-    runs-on: ${{ matrix.os }}
-    strategy:
-      fail-fast: false
-      matrix:
-        os: [ubuntu-latest]
-
-    steps:
+          
       - name: Commit documentation changes
         run: |
           git clone https://github.com/rw404/MNIST_sandbox.git --branch gh-pages --single-branch gh-pages
