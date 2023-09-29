@@ -10,7 +10,7 @@ mnist\_sandbox.eval module
 .. automodule:: mnist_sandbox.eval
    :members:
    :undoc-members:
-   
+
 mnist\_sandbox.model module
 ---------------------------
 

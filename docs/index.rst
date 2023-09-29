@@ -22,5 +22,5 @@ Simple CNN for MNIST digits dataset solution. To run simple train & evaluation:
    poetry install
 
 .. code-block:: bash
-   
+
    poetry run python3 mnist_sandbox/main.py
