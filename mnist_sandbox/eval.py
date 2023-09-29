@@ -6,7 +6,7 @@ from torch.utils.data import DataLoader
 from tqdm import tqdm
 
 
-@torch.no_grad()
+# @torch.no_grad() -- removed for sphinx docstring
 def model_evaluate(model: pl.LightningModule, test_loader: DataLoader) -> Tuple[int, int]:
     """Evaluate model with specified test dataset.
 
@@ -26,12 +26,13 @@ def model_evaluate(model: pl.LightningModule, test_loader: DataLoader) -> Tuple[
         Count of all items.
     """
 
-    correct = 0
-    total = 0
-    for img, label in tqdm(test_loader):
-        pred = model(img).detach().cpu()
+    with torch.no_grad():
+        correct = 0
+        total = 0
+        for img, label in tqdm(test_loader):
+            pred = model(img).detach().cpu()
 
-        correct += (pred.argmax(dim=1) == label).sum()
-        total += pred.size(0)
+            correct += (pred.argmax(dim=1) == label).sum()
+            total += pred.size(0)
 
     return correct, total
