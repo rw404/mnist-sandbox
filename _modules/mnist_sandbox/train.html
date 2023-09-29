@@ -1,39 +1,80 @@
 <!DOCTYPE html>
-
-<html data-content_root="../../" lang="en">
+<html class="writer-html5" lang="en" >
 <head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>mnist_sandbox.train — MNIST sandbox, mlops CS course, 2023 0.0.1 documentation</title>
-<link href="../../_static/pygments.css?v=fa44fd50" rel="stylesheet" type="text/css"/>
-<link href="../../_static/classic.css?v=514cf933" rel="stylesheet" type="text/css"/>
-<link href="../../_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css?v=0a3b3ea7" rel="stylesheet" type="text/css"/>
-<link href="../../_static/awesome-sphinx-design.css" rel="stylesheet" type="text/css"/>
-<script src="../../_static/documentation_options.js?v=d45e8c67"></script>
-<script src="../../_static/doctools.js?v=888ff710"></script>
-<script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
-<script src="../../_static/design-tabs.js?v=36754332"></script>
-<link href="../../genindex.html" rel="index" title="Index"/>
-<link href="../../search.html" rel="search" title="Search"/>
-</head><body>
-<div aria-label="related navigation" class="related" role="navigation">
-<h3>Navigation</h3>
-<ul>
-<li class="right" style="margin-right: 10px">
-<a accesskey="I" href="../../genindex.html" title="General Index">index</a></li>
-<li class="right">
-<a href="../../py-modindex.html" title="Python Module Index">modules</a> |</li>
-<li class="nav-item nav-item-0"><a href="../../index.html">MNIST sandbox, mlops CS course, 2023 0.0.1 documentation</a> »</li>
-<li class="nav-item nav-item-1"><a accesskey="U" href="../index.html">Module code</a> »</li>
-<li class="nav-item nav-item-this"><a href="">mnist_sandbox.train</a></li>
-</ul>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>mnist_sandbox.train &mdash; MNIST sandbox, mlops CS course, 2023 0.0.1 documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../_static/documentation_options.js?v=d45e8c67"></script>
+        <script src="../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="../../_static/design-tabs.js?v=36754332"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            MNIST sandbox, mlops CS course, 2023
+          </a>
+              <div class="version">
+                0.0.1
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
 </div>
-<div class="document">
-<div class="documentwrapper">
-<div class="bodywrapper">
-<div class="body" role="main">
-<h1>Source code for mnist_sandbox.train</h1><div class="highlight" data-controller="code"><pre>
-<span></span><code><span class="kn">import</span> <span class="nn">pytorch_lightning</span> <span class="k">as</span> <span class="nn">pl</span>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../mnist_sandbox.html">mnist_sandbox package</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">MNIST sandbox, mlops CS course, 2023</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">mnist_sandbox.train</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for mnist_sandbox.train</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">pytorch_lightning</span> <span class="k">as</span> <span class="nn">pl</span>
 <span class="kn">import</span> <span class="nn">torch</span>
 <span class="kn">from</span> <span class="nn">torch.utils.data</span> <span class="kn">import</span> <span class="n">DataLoader</span>
 
@@ -46,7 +87,7 @@
     <span class="n">train_loader</span><span class="p">:</span> <span class="n">DataLoader</span><span class="p">,</span>
     <span class="n">val_loader</span><span class="p">:</span> <span class="n">DataLoader</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pl</span><span class="o">.</span><span class="n">LightningModule</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">"""Training model on train_loader and validation part with val_loader.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Training model on train_loader and validation part with val_loader.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -62,10 +103,10 @@
 <span class="sd">    -------</span>
 <span class="sd">    model: pl.LightningModule</span>
 <span class="sd">        Trained model.</span>
-<span class="sd">    """</span>
+<span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">trainer</span> <span class="o">=</span> <span class="n">pl</span><span class="o">.</span><span class="n">Trainer</span><span class="p">(</span>
-        <span class="n">accelerator</span><span class="o">=</span><span class="s2">"gpu"</span> <span class="k">if</span> <span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">is_available</span><span class="p">()</span> <span class="k">else</span> <span class="s2">"cpu"</span><span class="p">,</span>
+        <span class="n">accelerator</span><span class="o">=</span><span class="s2">&quot;gpu&quot;</span> <span class="k">if</span> <span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">is_available</span><span class="p">()</span> <span class="k">else</span> <span class="s2">&quot;cpu&quot;</span><span class="p">,</span>
         <span class="n">devices</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
         <span class="n">max_epochs</span><span class="o">=</span><span class="n">n_epochs</span><span class="p">,</span>
         <span class="n">logger</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
@@ -76,42 +117,33 @@
 
     <span class="k">return</span> <span class="n">model</span></div>
 
-</code></pre></div>
-<div class="clearer"></div>
-</div>
-</div>
-</div>
-<div aria-label="main navigation" class="sphinxsidebar" role="navigation">
-<div class="sphinxsidebarwrapper">
-<div id="searchbox" role="search" style="display: none">
-<h3 id="searchlabel">Quick search</h3>
-<div class="searchformwrapper">
-<form action="../../search.html" class="search" method="get">
-<input aria-labelledby="searchlabel" autocapitalize="off" autocomplete="off" autocorrect="off" name="q" spellcheck="false" type="text"/>
-<input type="submit" value="Go"/>
-</form>
-</div>
-</div>
-<script>document.getElementById('searchbox').style.display = "block"</script>
-</div>
-</div>
-<div class="clearer"></div>
-</div>
-<div aria-label="related navigation" class="related" role="navigation">
-<h3>Navigation</h3>
-<ul>
-<li class="right" style="margin-right: 10px">
-<a href="../../genindex.html" title="General Index">index</a></li>
-<li class="right">
-<a href="../../py-modindex.html" title="Python Module Index">modules</a> |</li>
-<li class="nav-item nav-item-0"><a href="../../index.html">MNIST sandbox, mlops CS course, 2023 0.0.1 documentation</a> »</li>
-<li class="nav-item nav-item-1"><a href="../index.html">Module code</a> »</li>
-<li class="nav-item nav-item-this"><a href="">mnist_sandbox.train</a></li>
-</ul>
-</div>
-<div class="footer" role="contentinfo">
-    © Copyright 2023, &lt;unk&gt;.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.2.6.
-    </div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, &lt;unk&gt;.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
 </body>
 </html>
