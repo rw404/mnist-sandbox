@@ -39,21 +39,21 @@ jobs:
           name: DocumentationHTML
           path: docs/_build/html/
 
-      - name: Init new repo in dist folder and commit generated files
+      - name: Commit documentation changes
         run: |
-          cd docs/_build/html/
-          git init
+          git clone https://github.com/rw404/MNIST_sandbox.git --branch gh-pages --single-branch gh-pages
+          cp -r docs/_build/html/* gh-pages
+          cd gh-pages
           touch .nojekyll
-          git add -A
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
-          git config --global --add safe.directory /github/workspace
-          git commit -m 'deploy'
-
-      - name: Force push to destination branch
-        uses: ad-m/github-push-action@v0.5.0
+          git add .
+          git commit -m "Update documentation" -a || true
+          # The above command will fail if no changes were present, so we ignore
+          # the return code.
+      - name: Push changes
+        uses: ad-m/github-push-action@master
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
           branch: gh-pages
-          force: true
-          directory: ./
+          directory: gh-pages
+          github_token: ${{ secrets.GITHUB_TOKEN }}
