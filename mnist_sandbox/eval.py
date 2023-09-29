@@ -8,6 +8,24 @@ from tqdm import tqdm
 
 @torch.no_grad()
 def model_evaluate(model: pl.LightningModule, test_loader: DataLoader) -> Tuple[int, int]:
+    """Evaluate model with specified test dataset.
+
+    * Evaluation without torch.grad calculations.
+
+    Parameters
+    ----------
+    model: pl.LightningModule
+        Trained model in inference mode.
+    test_loader: DataLoader
+        Test dataset to be evaluated on.
+    Returns
+    -------
+    correct: int
+        Count of correct predictions.
+    total: int
+        Count of all items.
+    """
+
     correct = 0
     total = 0
     for img, label in tqdm(test_loader):

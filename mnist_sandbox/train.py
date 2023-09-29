@@ -9,6 +9,24 @@ def train_m(
     train_loader: DataLoader,
     val_loader: DataLoader,
 ) -> pl.LightningModule:
+    """Training model on train_loader and validation part with val_loader.
+
+    Parameters
+    ----------
+    model: pl.LightningModule
+        Model to be trained.
+    n_epochs: int
+        Count of training epochs.
+    train_loader: DataLoader
+        Training dataset.
+    val_loader: DataLoader
+        Validation dataset.
+    Returns
+    -------
+    model: pl.LightningModule
+        Trained model.
+    """
+
     trainer = pl.Trainer(
         accelerator="gpu" if torch.cuda.is_available() else "cpu",
         devices=1,

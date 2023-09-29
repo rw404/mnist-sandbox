@@ -8,10 +8,39 @@ from torch.optim import Adam
 
 
 class MNISTNet(pl.LightningModule):
+    """MNIST CNN
+
+    Model architecture
+       ===== ===== ====== ======
+       Layer Name  Type   Params
+       ===== ===== ====== ======
+       0     conv1 Conv2d 320
+       1     conv2 Conv2d 18.5K
+       2     conv3 Conv2d 55.4K
+       3     fc1   Linear 442K
+       4     fc2   Linear 65.7K
+       5     fc3   Linear 1.3K
+       ===== ===== ====== ======
+
+       * 584 K     Trainable params
+       * 0         Non-trainable params
+       * 584 K     Total params
+       * 2.336     Total estimated model params size (MB)
+
+
+    """
+
     # REQUIRED
     def __init__(self, learning_rate: float = 1e-3) -> None:
+        """Init model
+
+        Parameters
+        ----------
+        learning_rate: float
+            model learning rate
+        """
+
         super().__init__()
-        """ Define computations here. """
 
         self.training_step_outputs = []
         self.validation_step_outputs = []
@@ -26,7 +55,18 @@ class MNISTNet(pl.LightningModule):
 
     # REQUIRED
     def forward(self, x: torch.Tensor) -> torch.Tensor:
-        """Use for inference only (separate from training_step)."""
+        """Model process
+
+        Parameters
+        ----------
+        x: torch.Tensor
+            input data of size [batch_size, 3, 28, 28]
+
+        Returns
+        -------
+        x: torch.Tensor
+            Tensor of size [batch_size, 10] of probabilities logits
+        """
 
         x = F.relu(F.max_pool2d(self.conv1(x), 2))
         x = F.relu(F.max_pool2d(self.conv2(x), 2))
@@ -40,11 +80,24 @@ class MNISTNet(pl.LightningModule):
 
         return x
 
-    # REQUIRED
     def training_step(
         self, batch: Tuple[torch.Tensor, torch.Tensor], batch_idx: int
     ) -> dict:
-        """the full training loop"""
+        """Model training step
+
+        Parameters
+        ----------
+        batch: Tuple[torch.Tensor, torch.Tensor[]
+            __Input tensor__ and __Target tensor__(one hot encoded)
+        batch_idx: int
+            Hasn't used
+
+        Returns
+        -------
+        output: dict
+            Dictionary with loss and accuracy scores
+        """
+
         x, y = batch
 
         y_logit = self(x)
@@ -65,7 +118,14 @@ class MNISTNet(pl.LightningModule):
     def configure_optimizers(
         self,
     ) -> Tuple[torch.optim.Optimizer, torch.optim.lr_scheduler._LRScheduler]:
-        """Define optimizers and LR schedulers."""
+        """Optimizer and learning rate schedulers
+
+        Returns
+        -------
+        output: Tuple[torch.optim.Optimizer, torch.optim.lr_scheduler._LRScheduler]
+            Tuple with Adam optimizer and ReduceLROnPlateau scheduler
+        """
+
         optimizer = Adam(self.parameters(), lr=self.lr, weight_decay=5e-4)
 
         lr_scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(
@@ -92,7 +152,21 @@ class MNISTNet(pl.LightningModule):
     def validation_step(
         self, batch: Tuple[torch.Tensor, torch.Tensor], batch_idx: int
     ) -> dict:
-        """the full validation loop"""
+        """Model validation step
+
+        Parameters
+        ----------
+        batch: Tuple[torch.Tensor, torch.Tensor[]
+            __Input tensor__ and __Target tensor__(one hot encoded)
+        batch_idx: int
+            Hasn't used
+
+        Returns
+        -------
+        output: dict
+            Dictionary with loss and accuracy scores
+        """
+
         x, y = batch
 
         y_logit = self(x)
@@ -111,7 +185,12 @@ class MNISTNet(pl.LightningModule):
 
     # OPTIONAL
     def on_train_epoch_end(self) -> None:
-        """log and display average train loss and accuracy across epoch"""
+        """Model training epoch end
+
+        * Calculate average loss & accuracy scores;
+        * Log them & pring.
+        """
+
         avg_loss = torch.stack([x["loss"] for x in self.training_step_outputs])
         avg_loss = avg_loss.mean()
 
@@ -129,7 +208,12 @@ class MNISTNet(pl.LightningModule):
 
     # OPTIONAL
     def on_validation_epoch_end(self) -> None:
-        """log and display average val loss and accuracy"""
+        """Model validation epoch end
+
+        * Calculate average loss & accuracy scores;
+        * Log them & pring.
+        """
+
         avg_loss = torch.stack(
             [x["val_loss"] for x in self.validation_step_outputs]
         ).mean()
