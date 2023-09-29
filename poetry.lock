@@ -174,6 +174,24 @@ files = [
 ]
 
 [[package]]
+name = "beautifulsoup4"
+version = "4.12.2"
+description = "Screen-scraping library"
+optional = false
+python-versions = ">=3.6.0"
+files = [
+    {file = "beautifulsoup4-4.12.2-py3-none-any.whl", hash = "sha256:bd2520ca0d9d7d12694a53d44ac482d181b4ec1888909b035a3dbf40d0f57d4a"},
+    {file = "beautifulsoup4-4.12.2.tar.gz", hash = "sha256:492bbc69dca35d12daac71c4db1bfff0c876c00ef4a2ffacce226d4638eb72da"},
+]
+
+[package.dependencies]
+soupsieve = ">1.2"
+
+[package.extras]
+html5lib = ["html5lib"]
+lxml = ["lxml"]
+
+[[package]]
 name = "certifi"
 version = "2023.7.22"
 description = "Python package for providing Mozilla's CA Bundle."
@@ -892,6 +910,20 @@ files = [
 plugins = ["importlib-metadata"]
 
 [[package]]
+name = "python-dotenv"
+version = "1.0.0"
+description = "Read key-value pairs from a .env file and set them as environment variables"
+optional = false
+python-versions = ">=3.8"
+files = [
+    {file = "python-dotenv-1.0.0.tar.gz", hash = "sha256:a8df96034aae6d2d50a4ebe8216326c61c3eb64836776504fcca410e5937a3ba"},
+    {file = "python_dotenv-1.0.0-py3-none-any.whl", hash = "sha256:f5971a9226b701070a4bf2c38c89e5a3f0d64de8debda981d1db98583009122a"},
+]
+
+[package.extras]
+cli = ["click (>=5.0)"]
+
+[[package]]
 name = "pytorch-lightning"
 version = "2.0.9"
 description = "PyTorch Lightning is the lightweight PyTorch wrapper for ML researchers. Scale your models. Write less boilerplate."
@@ -921,20 +953,6 @@ examples = ["gym[classic-control] (>=0.17.0)", "ipython[all] (<8.15.0)", "lightn
 extra = ["hydra-core (>=1.0.5)", "jsonargparse[signatures] (>=4.18.0,<4.25.0)", "matplotlib (>3.1)", "omegaconf (>=2.0.5)", "rich (>=12.3.0)", "tensorboardX (>=2.2)"]
 strategies = ["deepspeed (>=0.8.2)"]
 test = ["cloudpickle (>=1.3)", "coverage (==7.3.0)", "fastapi (<0.100.0)", "onnx (<1.15.0)", "onnxruntime (<1.16.0)", "pandas (>1.0)", "protobuf (<3.21.0)", "psutil (<5.9.6)", "pytest (==7.4.0)", "pytest-cov (==4.1.0)", "pytest-forked (==1.4.0)", "pytest-rerunfailures (==10.3)", "scikit-learn (>0.22.1)", "tensorboard (>=2.9.1)", "uvicorn (<0.23.3)"]
-
-[[package]]
-name = "pytorch-sphinx-theme"
-version = "0.0.19"
-description = "PyTorch Sphinx Theme"
-optional = false
-python-versions = "*"
-files = [
-    {file = "pytorch_sphinx_theme-0.0.19-py2.py3-none-any.whl", hash = "sha256:3f66199e6b652ee1aa9bf6bc2c8f1c76551094d7fda5ccc9f1f34cc83ca00966"},
-    {file = "pytorch_sphinx_theme-0.0.19.tar.gz", hash = "sha256:9c0472a82fc72e5b4c4c5202fc9cdd6de8f1de6050a98f4ace75707ebb184bfd"},
-]
-
-[package.dependencies]
-sphinx = "*"
 
 [[package]]
 name = "pyyaml"
@@ -1044,6 +1062,17 @@ files = [
 ]
 
 [[package]]
+name = "soupsieve"
+version = "2.5"
+description = "A modern CSS selector implementation for Beautiful Soup."
+optional = false
+python-versions = ">=3.8"
+files = [
+    {file = "soupsieve-2.5-py3-none-any.whl", hash = "sha256:eaa337ff55a1579b6549dc679565eac1e3d000563bcb1c8ab0d0fefbc0c2cdc7"},
+    {file = "soupsieve-2.5.tar.gz", hash = "sha256:5663d5a7b3bfaeee0bc4372e7fc48f9cff4940b3eec54a6451cc5299f1097690"},
+]
+
+[[package]]
 name = "sphinx"
 version = "7.2.6"
 description = "Python documentation generator"
@@ -1113,6 +1142,22 @@ files = [
 
 [package.dependencies]
 sphinx = ">=4"
+
+[[package]]
+name = "sphinxawesome-theme"
+version = "4.1.0"
+description = "An awesome theme for the Sphinx documentation generator"
+optional = false
+python-versions = ">=3.8,<4.0"
+files = [
+    {file = "sphinxawesome_theme-4.1.0-py3-none-any.whl", hash = "sha256:fb6b4ba63583199d6c1d837ffc0fea8d63e4bc3537be9b27c563d82dcf3b25c2"},
+    {file = "sphinxawesome_theme-4.1.0.tar.gz", hash = "sha256:827b810ce314adb3146ccbce4787d6a6fa94de6dea7c61ef081a239ba70a1d25"},
+]
+
+[package.dependencies]
+beautifulsoup4 = ">=4.9.1,<5.0.0"
+python-dotenv = ">=0.19,<1.1"
+sphinx = ">4"
 
 [[package]]
 name = "sphinxcontrib-applehelp"
@@ -1509,4 +1554,4 @@ multidict = ">=4.0"
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.11"
-content-hash = "6540b3ad1901d29cc96822f926dec8c3b701dff77dff25ffb48d553fbcecd8a9"
+content-hash = "0cdfd69f77df1685ca89e3da108476910b48307bdfde85e78773a3f3eadf65be"

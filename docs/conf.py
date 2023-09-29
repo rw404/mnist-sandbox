@@ -8,8 +8,6 @@
 import os
 import sys
 
-import pytorch_sphinx_theme
-
 
 sys.path.insert(0, os.path.abspath("../"))
 sys.path.insert(0, os.path.abspath("../.."))
@@ -48,6 +46,7 @@ autodoc_mock_imports = [
 ]
 
 extensions = [
+    "sphinxawesome_theme",
     "sphinx.ext.autodoc",
     "sphinx.ext.autosummary",
     "sphinx.ext.doctest",
@@ -71,7 +70,6 @@ exclude_patterns = ["_build", "Thumbs.db", ".DS_Store"]
 # -- Options for HTML output -------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-html-output
 
-html_theme = "pytorch_sphinx_theme"  # "pt_lightning_sphinx_theme"
+html_theme = "sphinxawesome_theme"
 
-html_theme_path = [pytorch_sphinx_theme.get_html_theme_path()]
 html_static_path = ["_static"]
