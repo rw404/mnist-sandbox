@@ -38,7 +38,7 @@ jobs:
         with:
           name: DocumentationHTML
           path: docs/_build/html/
-          
+
       - name: Commit documentation changes
         run: |
           git clone https://github.com/rw404/MNIST_sandbox.git --branch gh-pages --single-branch gh-pages
