@@ -45,7 +45,7 @@ autodoc_mock_imports = [
     "torch.nn.modules.module.Module",
 ]
 
-extensions = [ 
+extensions = [
     "sphinx.ext.autodoc",
     "sphinx.ext.autosummary",
     "sphinx.ext.doctest",
