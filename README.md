@@ -7,7 +7,7 @@ MNIST sandbox for CNN MLops course CS MSU 2023
 ## Install dependencies
 
 ```bash
-poetry install
+poetry install --with docs
 ```
 
 ## Build
