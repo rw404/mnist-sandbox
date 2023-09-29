@@ -37,6 +37,16 @@ isort = 1
 [tool.poetry.group.dev.dependencies]
 pre-commit = "^3.4.0"
 
+[tool.poetry.group.docs]
+optional = true
+
+[tool.poetry.group.docs.dependencies]
+sphinx = "^7.2.6"
+sphinx-design = "^0.5.0"
+sphinx-gallery = "^0.14.0"
+numpydoc = "^1.6.0"
+pytorch-sphinx-theme = "^0.0.19"
+
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
