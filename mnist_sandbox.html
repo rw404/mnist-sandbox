@@ -127,7 +127,7 @@
 </p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><em>Tuple</em>[int, int]</p>
+<dd class="field-odd"><p><em>Tuple</em>[int, int, <em>ndarray</em>]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -322,6 +322,9 @@
 <dt class="sig sig-object py" id="mnist_sandbox.train.train_m">
 <span class="sig-prename descclassname"><span class="pre">mnist_sandbox.train.</span></span><span class="sig-name descname"><span class="pre">train_m</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_epochs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">train_loader</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">val_loader</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/mnist_sandbox/train.html#train_m"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mnist_sandbox.train.train_m" title="Link to this definition"></a></dt>
 <dd><p>Training model on train_loader and validation part with val_loader.</p>
+<ul class="simple">
+<li><p>Save trained model weights into sota_mnist_cnn.pth</p></li>
+</ul>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
