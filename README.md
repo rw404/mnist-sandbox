@@ -10,7 +10,7 @@ MNIST sandbox for CNN MLops course CS MSU 2023
 ## Install dependencies
 
 ```bash
-poetry install --with docs
+poetry install [OPTIONAL]--with docs
 ```
 
 ## Build
@@ -23,4 +23,21 @@ poetry build
 
 ```bash
 poetry run python3 mnist_sandbox/main.py
+```
+
+## Tests HW
+
+```bash
+mkdir mnist_test
+virtualenv mnist_test
+source ./mnist_test/bin/activate
+
+poetry install
+
+pre-commit install
+
+pre-commit run -a
+
+python3 train.py
+python3 infer.py
 ```

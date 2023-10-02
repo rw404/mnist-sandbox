@@ -1,6 +1,17 @@
+import os
+import warnings
+
 import pytorch_lightning as pl
 import torch
 from torch.utils.data import DataLoader
+
+
+n_epochs = 2
+learning_rate = 1e-3
+random_seed = 1
+
+warnings.filterwarnings("ignore")
+torch.manual_seed(random_seed)
 
 
 def train_m(
@@ -10,6 +21,8 @@ def train_m(
     val_loader: DataLoader,
 ) -> pl.LightningModule:
     """Training model on train_loader and validation part with val_loader.
+
+    * Save trained model weights into sota_mnist_cnn.pth
 
     Parameters
     ----------
@@ -37,4 +50,6 @@ def train_m(
 
     trainer.fit(model, train_loader, val_loader)
 
+    torch.save(model.state_dict(), "sota_mnist_cnn.pth")
+    print(f"Model saved into {os.path.join(os.path.abspath('./'), 'sota_mnist_cnn.pth')}")
     return model

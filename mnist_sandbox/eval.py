@@ -1,5 +1,6 @@
 from typing import Tuple
 
+import numpy as np
 import pytorch_lightning as pl
 import torch
 from torch.utils.data import DataLoader
@@ -7,7 +8,9 @@ from tqdm import tqdm
 
 
 # @torch.no_grad() -- removed for sphinx docstring
-def model_evaluate(model: pl.LightningModule, test_loader: DataLoader) -> Tuple[int, int]:
+def model_evaluate(
+    model: pl.LightningModule, test_loader: DataLoader
+) -> Tuple[int, int, np.ndarray]:
     """Evaluate model with specified test dataset.
 
     * Evaluation without torch.grad calculations.
@@ -25,6 +28,7 @@ def model_evaluate(model: pl.LightningModule, test_loader: DataLoader) -> Tuple[
     total: int
         Count of all items.
     """
+    prediction = []
 
     with torch.no_grad():
         correct = 0
@@ -33,6 +37,10 @@ def model_evaluate(model: pl.LightningModule, test_loader: DataLoader) -> Tuple[
             pred = model(img).detach().cpu()
 
             correct += (pred.argmax(dim=1) == label).sum()
+            prediction.append(pred.argmax(dim=1).numpy())
+
             total += pred.size(0)
 
-    return correct, total
+    prediction_list = np.hstack(prediction)
+
+    return correct, total, prediction_list
