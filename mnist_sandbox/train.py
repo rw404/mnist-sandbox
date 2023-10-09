@@ -1,17 +1,8 @@
-import os
-import warnings
+from pathlib import Path
 
 import pytorch_lightning as pl
 import torch
 from torch.utils.data import DataLoader
-
-
-n_epochs = 2
-learning_rate = 1e-3
-random_seed = 1
-
-warnings.filterwarnings("ignore")
-torch.manual_seed(random_seed)
 
 
 def train_m(
@@ -51,5 +42,6 @@ def train_m(
     trainer.fit(model, train_loader, val_loader)
 
     torch.save(model.state_dict(), "sota_mnist_cnn.pth")
-    print(f"Model saved into {os.path.join(os.path.abspath('./'), 'sota_mnist_cnn.pth')}")
+    weights_path = Path.cwd().joinpath() / "sota_mnist_cnn.pth"
+    print(f"Model saved into {weights_path}")
     return model

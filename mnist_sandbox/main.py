@@ -1,34 +1,40 @@
-import warnings
-
 import torch
-from data import test_loader, train_loader, val_loader
-from eval import model_evaluate
-from model import MNISTNet
-from train import train_m
+
+from . import LEARNING_RATE, N_EPOCHS, RANDOM_SEED
+from .data import MNIST
+from .eval import model_evaluate
+from .model import MNISTNet
+from .train import train_m
 
 
-n_epochs = 2
-learning_rate = 1e-3
-random_seed = 1
-
-warnings.filterwarnings("ignore")
-
-torch.manual_seed(random_seed)
+torch.manual_seed(RANDOM_SEED)
 if torch.cuda.is_available():
-    torch.cuda.manual_seed(random_seed)
+    torch.cuda.manual_seed(RANDOM_SEED)
 
-if __name__ == "__main__":
+
+def main() -> None:
+    """
+    Run e2e pipeline for MNIST CNN classifier
+    """
+
     device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
     print(f"Device {device}")
 
-    model = MNISTNet(learning_rate=learning_rate)
+    model = MNISTNet(learning_rate=LEARNING_RATE)
     model.to(device)
 
+    print("Data init...")
+    dataset = MNIST(seed=RANDOM_SEED)
+
     print("Training...")
-    model = train_m(model, n_epochs, train_loader, val_loader)
+    model = train_m(model, N_EPOCHS, dataset.train_loader, dataset.val_loader)
 
     print("Validation...")
     model.eval()
-    correct, total, _ = model_evaluate(model, test_loader)
+    correct, total, _ = model_evaluate(model, dataset.test_loader)
 
     print(f"Accuracy = {100*correct/total}%")
+
+
+if __name__ == "__main__":
+    main()

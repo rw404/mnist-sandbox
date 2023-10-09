@@ -1,18 +1,27 @@
 import torch
-from mnist_sandbox.data import train_loader, val_loader
+from mnist_sandbox import LEARNING_RATE, N_EPOCHS, RANDOM_SEED
+from mnist_sandbox.data import MNIST
 from mnist_sandbox.model import MNISTNet
 from mnist_sandbox.train import train_m
 
 
-n_epochs = 2
-learning_rate = 1e-3
+def train_test() -> None:
+    """
+    Training process
 
-if __name__ == "__main__":
+    """
     device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
     print(f"Device {device}")
 
-    model = MNISTNet(learning_rate=learning_rate)
+    model = MNISTNet(learning_rate=LEARNING_RATE)
     model.to(device)
 
+    print("Data init...")
+    dataset = MNIST(seed=RANDOM_SEED)
+
     print("Training...")
-    model = train_m(model, n_epochs, train_loader, val_loader)
+    model = train_m(model, N_EPOCHS, dataset.train_loader, dataset.val_loader)
+
+
+if __name__ == "__main__":
+    train_test()

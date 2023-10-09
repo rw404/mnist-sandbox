@@ -13,6 +13,7 @@ torchvision = "^0.15.2"
 tqdm = "^4.66.1"
 numpy = "1.24.3"
 pandas = "2.0.2"
+pathlib = "^1.0.1"
 
 [tool.black]
 line-length = 90
