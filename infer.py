@@ -13,14 +13,14 @@ def inference() -> None:
     """
     Inference model with csv saving
     """
-    device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+    device = torch.device("cpu")
     print(f"Device {device}")
 
     model = MNISTNet()
     model.to(device)
 
     print("Loading model...")
-    model.load_state_dict(torch.load(Path.cwd() / "sota_mnist_cnn.pth"))
+    model.load_state_dict(torch.load(Path.cwd() / "models" / "sota_mnist_cnn.pth"))
 
     print("Data init...")
     dataset = MNIST(seed=RANDOM_SEED)

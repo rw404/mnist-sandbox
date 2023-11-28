@@ -32,7 +32,7 @@ def train_m(
     """
 
     trainer = pl.Trainer(
-        accelerator="gpu" if torch.cuda.is_available() else "cpu",
+        accelerator="cpu",
         devices=1,
         max_epochs=n_epochs,
         logger=False,
@@ -41,7 +41,9 @@ def train_m(
 
     trainer.fit(model, train_loader, val_loader)
 
-    torch.save(model.state_dict(), "sota_mnist_cnn.pth")
-    weights_path = Path.cwd().joinpath() / "sota_mnist_cnn.pth"
+    if not Path("models").exists():
+        Path("models").mkdir(parents=True, exist_ok=True)
+    torch.save(model.state_dict(), Path("models") / "sota_mnist_cnn.pth")
+    weights_path = Path.cwd().joinpath() / "models" / "sota_mnist_cnn.pth"
     print(f"Model saved into {weights_path}")
     return model
