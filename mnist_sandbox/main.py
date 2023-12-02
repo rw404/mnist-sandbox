@@ -22,7 +22,7 @@ def main() -> None:
     model.to(device)
 
     print("Data init...")
-    dataset = MNIST(seed=RANDOM_SEED)
+    dataset = MNIST(path_list=None, seed=RANDOM_SEED)
 
     print("Training...")
     model = train_m(model, N_EPOCHS, dataset.train_loader, dataset.val_loader)

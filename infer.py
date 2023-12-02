@@ -2,16 +2,23 @@ import io
 from pathlib import Path
 
 import dvc.api
+import hydra
 import numpy as np
 import pandas as pd
 import torch
-from mnist_sandbox import RANDOM_SEED
+from config import InferParams
+from hydra.core.config_store import ConfigStore
 from mnist_sandbox.data import MNIST
 from mnist_sandbox.eval import model_evaluate
 from mnist_sandbox.model import MNISTNet
 
 
-def inference() -> None:
+cs = ConfigStore.instance()
+cs.store(name="params", node=InferParams)
+
+
+@hydra.main(config_path="./configs", config_name="infer", version_base="1.3")
+def inference(config: InferParams) -> None:
     """
     Inference model with csv saving
     """
@@ -31,7 +38,12 @@ def inference() -> None:
     model.load_state_dict(torch.load(io.BytesIO(model_info)))
 
     print("Data init...")
-    dataset = MNIST(seed=RANDOM_SEED)
+    dataset = MNIST(
+        path_list=config.data.dataset_list,
+        seed=config.data.seed,
+        batch_size_test=config.data.batch_size,
+        train=False,
+    )
 
     print("Evaluating...")
     model.eval()
