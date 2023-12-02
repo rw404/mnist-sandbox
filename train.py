@@ -10,7 +10,7 @@ def train_test() -> None:
     Training process
 
     """
-    device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+    device = torch.device("cpu")
     print(f"Device {device}")
 
     model = MNISTNet(learning_rate=LEARNING_RATE)

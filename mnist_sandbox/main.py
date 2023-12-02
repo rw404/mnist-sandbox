@@ -8,8 +8,6 @@ from .train import train_m
 
 
 torch.manual_seed(RANDOM_SEED)
-if torch.cuda.is_available():
-    torch.cuda.manual_seed(RANDOM_SEED)
 
 
 def main() -> None:
@@ -17,7 +15,7 @@ def main() -> None:
     Run e2e pipeline for MNIST CNN classifier
     """
 
-    device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+    device = torch.device("cpu")
     print(f"Device {device}")
 
     model = MNISTNet(learning_rate=LEARNING_RATE)

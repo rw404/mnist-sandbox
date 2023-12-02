@@ -1,5 +1,8 @@
+import subprocess
+
 import torch
 import torchvision
+from mnist_sandbox import DATASET_DOWNLOAD_SHELL
 from torch.utils.data import DataLoader, random_split
 
 
@@ -13,10 +16,14 @@ class MNIST:
     """
 
     def __init__(self, batch_size_train=64, batch_size_test=10, seed=42) -> None:
+        # Because MNIST is a directory, it cannot be download via dvc python-api
+        # So it's simple cli call
+        subprocess.call(DATASET_DOWNLOAD_SHELL.split())
+
         train_dataset = torchvision.datasets.MNIST(
             "./",
             train=True,
-            download=True,
+            download=False,
             transform=torchvision.transforms.Compose(
                 [
                     torchvision.transforms.ToTensor(),
@@ -46,7 +53,7 @@ class MNIST:
             torchvision.datasets.MNIST(
                 "./",
                 train=False,
-                download=True,
+                download=False,
                 transform=torchvision.transforms.Compose(
                     [
                         torchvision.transforms.ToTensor(),
