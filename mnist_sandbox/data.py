@@ -1,8 +1,9 @@
-import subprocess
+import tempfile
+from pathlib import Path
 
+import dvc.api
 import torch
 import torchvision
-from mnist_sandbox import DATASET_DOWNLOAD_SHELL
 from torch.utils.data import DataLoader, random_split
 
 
@@ -16,43 +17,34 @@ class MNIST:
     """
 
     def __init__(self, batch_size_train=64, batch_size_test=10, seed=42) -> None:
-        # Because MNIST is a directory, it cannot be download via dvc python-api
-        # So it's simple cli call
-        subprocess.call(DATASET_DOWNLOAD_SHELL.split())
+        # TODO: remove hardcoded
+        paths = [
+            "MNIST/raw/t10k-images-idx3-ubyte",
+            "MNIST/raw/t10k-labels-idx1-ubyte",
+            "MNIST/raw/train-images-idx3-ubyte",
+            "MNIST/raw/train-labels-idx1-ubyte",
+        ]
 
-        train_dataset = torchvision.datasets.MNIST(
-            "./",
-            train=True,
-            download=False,
-            transform=torchvision.transforms.Compose(
-                [
-                    torchvision.transforms.ToTensor(),
-                    torchvision.transforms.Normalize((0.1307,), (0.3081,)),
-                ]
-            ),
-        )
+        with tempfile.TemporaryDirectory(dir="./") as tmpp:
+            root_dir = Path(tmpp) / "MNIST"
+            root_dir.mkdir(parents=True, exist_ok=True)
 
-        self.train_len = int(len(train_dataset) * 0.8)
+            root_dir = root_dir / "raw"
+            root_dir.mkdir(parents=True, exist_ok=True)
 
-        self.val_len = len(train_dataset) - int(len(train_dataset) * 0.8)
+            for image_file in paths:
+                cur_file = dvc.api.read(
+                    image_file,
+                    repo="https://github.com/rw404/mnist-sandbox",
+                    mode="rb",
+                )
 
-        generator = torch.Generator().manual_seed(seed)
-        self.train_set, self.val_set = random_split(
-            train_dataset, [self.train_len, self.val_len], generator=generator
-        )
+                with open(root_dir / image_file.split("/")[-1], mode="wb+") as data_file:
+                    data_file.write(cur_file)
 
-        self.train_loader_instance = DataLoader(
-            self.train_set, batch_size=batch_size_train, shuffle=True
-        )
-
-        self.val_loader_instance = DataLoader(
-            self.val_set, batch_size=batch_size_train, shuffle=True
-        )
-
-        self.test_loader_instance = DataLoader(
-            torchvision.datasets.MNIST(
-                "./",
-                train=False,
+            train_dataset = torchvision.datasets.MNIST(
+                tmpp,
+                train=True,
                 download=False,
                 transform=torchvision.transforms.Compose(
                     [
@@ -60,10 +52,40 @@ class MNIST:
                         torchvision.transforms.Normalize((0.1307,), (0.3081,)),
                     ]
                 ),
-            ),
-            batch_size=batch_size_test,
-            shuffle=False,
-        )
+            )
+
+            self.train_len = int(len(train_dataset) * 0.8)
+
+            self.val_len = len(train_dataset) - int(len(train_dataset) * 0.8)
+
+            generator = torch.Generator().manual_seed(seed)
+            self.train_set, self.val_set = random_split(
+                train_dataset, [self.train_len, self.val_len], generator=generator
+            )
+
+            self.train_loader_instance = DataLoader(
+                self.train_set, batch_size=batch_size_train, shuffle=True
+            )
+
+            self.val_loader_instance = DataLoader(
+                self.val_set, batch_size=batch_size_train, shuffle=True
+            )
+
+            self.test_loader_instance = DataLoader(
+                torchvision.datasets.MNIST(
+                    tmpp,
+                    train=False,
+                    download=False,
+                    transform=torchvision.transforms.Compose(
+                        [
+                            torchvision.transforms.ToTensor(),
+                            torchvision.transforms.Normalize((0.1307,), (0.3081,)),
+                        ]
+                    ),
+                ),
+                batch_size=batch_size_test,
+                shuffle=False,
+            )
 
     @property
     def train_loader(self):
