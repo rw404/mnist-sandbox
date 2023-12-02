@@ -320,7 +320,7 @@
 <span id="mnist-sandbox-train-module"></span><h2>mnist_sandbox.train module<a class="headerlink" href="#module-mnist_sandbox.train" title="Link to this heading"></a></h2>
 <dl class="py function">
 <dt class="sig sig-object py" id="mnist_sandbox.train.train_m">
-<span class="sig-prename descclassname"><span class="pre">mnist_sandbox.train.</span></span><span class="sig-name descname"><span class="pre">train_m</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_epochs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">train_loader</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">val_loader</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/mnist_sandbox/train.html#train_m"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mnist_sandbox.train.train_m" title="Link to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">mnist_sandbox.train.</span></span><span class="sig-name descname"><span class="pre">train_m</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_epochs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">train_loader</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">val_loader</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/mnist_sandbox/train.html#train_m"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mnist_sandbox.train.train_m" title="Link to this definition"></a></dt>
 <dd><p>Training model on train_loader and validation part with val_loader.</p>
 <ul class="simple">
 <li><p>Save trained model weights into sota_mnist_cnn.pth</p></li>
@@ -332,6 +332,7 @@
 <li><p><strong>n_epochs</strong> (<em>int</em>) – Count of training epochs.</p></li>
 <li><p><strong>train_loader</strong> (<em>DataLoader</em>) – Training dataset.</p></li>
 <li><p><strong>val_loader</strong> (<em>DataLoader</em>) – Validation dataset.</p></li>
+<li><p><strong>save</strong> (<em>bool</em>) – Save result model. Default is False, because DVC is used</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
