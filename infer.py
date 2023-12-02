@@ -1,5 +1,7 @@
+import io
 from pathlib import Path
 
+import dvc.api
 import numpy as np
 import pandas as pd
 import torch
@@ -13,6 +15,12 @@ def inference() -> None:
     """
     Inference model with csv saving
     """
+    model_info = dvc.api.read(
+        str(Path("models") / "sota_mnist_cnn.pth"),
+        repo="https://github.com/rw404/mnist-sandbox",
+        mode="rb",
+    )
+
     device = torch.device("cpu")
     print(f"Device {device}")
 
@@ -20,7 +28,7 @@ def inference() -> None:
     model.to(device)
 
     print("Loading model...")
-    model.load_state_dict(torch.load(Path.cwd() / "models" / "sota_mnist_cnn.pth"))
+    model.load_state_dict(torch.load(io.BytesIO(model_info)))
 
     print("Data init...")
     dataset = MNIST(seed=RANDOM_SEED)
