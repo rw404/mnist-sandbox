@@ -52,5 +52,5 @@ def train_m(
         weights_path = Path.cwd().joinpath() / "models" / "sota_mnist_cnn.pth"
         print(f"Model saved into {weights_path}")
     else:
-        print(f"Model stored in DVC, so it's not saving.")
+        print("Model stored in DVC, so it's not saving.")
     return model
