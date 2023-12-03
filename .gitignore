@@ -48,3 +48,5 @@ outputs
 .logs
 logger_mlflow/mlruns
 /mnist_cnn.onnx
+debug.ipynb
+inference/inference_predict.png

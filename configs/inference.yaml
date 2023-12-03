@@ -1,0 +1,5 @@
+inference:
+  pth_endpoint: sota_mnist_cnn.pth
+  onnx_endpoint: mnist_cnn.onnx
+  inference_input: inference.npy
+  inference_output: inference_predict.png

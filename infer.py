@@ -17,13 +17,13 @@ cs = ConfigStore.instance()
 cs.store(name="params", node=InferParams)
 
 
-@hydra.main(config_path="./configs", config_name="infer", version_base="1.3")
+@hydra.main(config_path="./configs", config_name="eval", version_base="1.3")
 def inference(config: InferParams) -> None:
     """
     Inference model with csv saving
     """
     model_info = dvc.api.read(
-        str(Path("models") / "sota_mnist_cnn.pth"),
+        str(Path("models") / config.dvc_settings.pth_endpoint),
         repo="https://github.com/rw404/mnist-sandbox",
         mode="rb",
     )

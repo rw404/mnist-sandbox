@@ -22,12 +22,6 @@ poetry install [OPTIONAL]--with docs
 poetry build
 ```
 
-## Run
-
-```bash
-poetry run python3 -m mnist_sandbox.main
-```
-
 ## Tests HW
 
 ```bash
@@ -43,4 +37,48 @@ pre-commit run -a
 
 python3 train.py
 python3 infer.py
+```
+
+# 2nd HW test
+
+> In the 2nd HW it is used dvc for downloading, so each time in traininig it
+> downloads required dataset in tmp folder which will be deleted after moving
+> data to RAM, so for model loading in eval/inference modes
+
+```bash
+# Logging
+# Step 1: enable docker image of local mlflow.
+# Using ports 13412, 13413. Have to be free
+cd logger_mlflow
+docker-compose build
+docker-compose up
+
+# Step 2: run training script
+# Return to the repository directory
+cd ..
+# Check training yaml
+cat configs/train.yaml
+# Run training
+python3 train.py
+
+# Step 3: check metrics
+open localhost:13412
+
+# Inference
+# Step 1: specify inference setting in configs/inference.yaml
+# Default is:
+# inference:
+#   pth_endpoint: sota_mnist_cnn.pth <- last model | from dvc
+#   onnx_endpoint: mnist_cnn.onnx <- last onnx     | from dvc
+#   inference_input: inference.npy <- image | required numpy (1, 28, 28)
+#   inference_output: inference_predict.png <- where to store the prediction
+
+# Step 2: run inference
+# Because of lots of troubleshooting with automatic
+# model serving with mlflow it's not used request-based approach
+# But mlflow was used as saver and loader onnx weights
+python3 run_server.py
+
+# Step 3: check result with title of prediction
+open inference/inference_predict.png
 ```

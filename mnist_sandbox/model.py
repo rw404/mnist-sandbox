@@ -47,9 +47,9 @@ class MNISTNet(pl.LightningModule):
         self.validation_step_outputs = []
 
         self.lr = learning_rate
-        self.conv1 = nn.Conv2d(1, 32, 3, padding="same")
-        self.conv2 = nn.Conv2d(32, 64, 3, padding="same")
-        self.conv3 = nn.Conv2d(64, 96, 3, padding="same")
+        self.conv1 = nn.Conv2d(1, 32, 3, padding=1)
+        self.conv2 = nn.Conv2d(32, 64, 3, padding=1)
+        self.conv3 = nn.Conv2d(64, 96, 3, padding=1)
         self.fc1 = nn.Linear(864, 512)
         self.fc2 = nn.Linear(512, 128)
         self.fc3 = nn.Linear(128, 10)

@@ -6,3 +6,6 @@ data:
     - t10k-labels-idx1-ubyte
   seed: 1
   batch_size: 10
+
+dvc_settings:
+  pth_endpoint: sota_mnist_cnn.pth

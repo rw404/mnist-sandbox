@@ -27,5 +27,24 @@ class TrainParams:
 
 
 @dataclass
+class DVCSetting:
+    pth_endpoint: str
+
+
+@dataclass
 class InferParams:
     data: Dataset
+    dvc_settings: DVCSetting
+
+
+@dataclass
+class InferenceSettings:
+    pth_endpoint: str
+    onnx_endpoint: str
+    inference_input: str
+    inference_output: str
+
+
+@dataclass
+class Inference:
+    inference: InferenceSettings
