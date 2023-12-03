@@ -1,0 +1,5 @@
+outs:
+- md5: 0c0947193596ddaf3c68171eee7990e7
+  size: 2338187
+  hash: md5
+  path: mnist_cnn.onnx

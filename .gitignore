@@ -47,3 +47,4 @@ submission.csv
 outputs
 .logs
 logger_mlflow/mlruns
+/mnist_cnn.onnx
