@@ -12,4 +12,4 @@ model:
 
 trainer:
   epochs: 5
-  logging_url: file:./.logs/my-mlflow-logs
+  logging_url: http://localhost:13412
