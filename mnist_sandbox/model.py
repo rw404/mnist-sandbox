@@ -41,6 +41,7 @@ class MNISTNet(pl.LightningModule):
         """
 
         super().__init__()
+        self.save_hyperparameters()
 
         self.training_step_outputs = []
         self.validation_step_outputs = []
@@ -52,6 +53,8 @@ class MNISTNet(pl.LightningModule):
         self.fc1 = nn.Linear(864, 512)
         self.fc2 = nn.Linear(512, 128)
         self.fc3 = nn.Linear(128, 10)
+
+        self.val_img = []
 
     # REQUIRED
     def forward(self, x: torch.Tensor) -> torch.Tensor:
@@ -111,6 +114,8 @@ class MNISTNet(pl.LightningModule):
         output = {"loss": loss, "acc": acc}
 
         self.training_step_outputs.append(output)
+        self.log("train_loss", loss, on_step=True, on_epoch=False, prog_bar=True)
+        self.log("train_acc", acc, on_step=True, on_epoch=False, prog_bar=True)
 
         return output
 
@@ -180,7 +185,11 @@ class MNISTNet(pl.LightningModule):
         output = {"val_loss": loss, "val_acc": val_acc}
 
         self.validation_step_outputs.append(output)
+        self.log("val_loss", loss, on_step=True, on_epoch=True, prog_bar=False)
+        self.log("val_acc", val_acc, on_step=True, on_epoch=True, prog_bar=False)
 
+        if batch_idx % 100 == 0:
+            self.val_img.append((x[0].squeeze(0), y[0]))
         return output
 
     # OPTIONAL
@@ -203,8 +212,12 @@ class MNISTNet(pl.LightningModule):
 
         print(f"| Train_loss: {avg_loss:.5f} Train_acc: {Accuracy}%")
 
-        self.log("train_loss", avg_loss, prog_bar=True, on_epoch=True, on_step=False)
-        self.log("train_acc", avg_acc, prog_bar=True, on_epoch=True, on_step=False)
+        self.log(
+            "train_average_loss", avg_loss, prog_bar=True, on_epoch=True, on_step=False
+        )
+        self.log(
+            "train_average_acc", avg_acc, prog_bar=True, on_epoch=True, on_step=False
+        )
 
     # OPTIONAL
     def on_validation_epoch_end(self) -> None:
@@ -229,5 +242,7 @@ class MNISTNet(pl.LightningModule):
             end=" ",
         )
 
-        self.log("val_loss", avg_loss, prog_bar=True, on_epoch=True, on_step=False)
-        self.log("val_acc", avg_acc, prog_bar=True, on_epoch=True, on_step=False)
+        self.log(
+            "val_average_loss", avg_loss, prog_bar=True, on_epoch=True, on_step=False
+        )
+        self.log("val_average_acc", avg_acc, prog_bar=True, on_epoch=True, on_step=False)

@@ -10,5 +10,6 @@ data:
 model:
   learning_rate: 1e-3
 
-training:
+trainer:
   epochs: 5
+  logging_url: file:./.logs/my-mlflow-logs

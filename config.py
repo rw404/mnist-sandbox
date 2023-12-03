@@ -16,6 +16,7 @@ class Model:
 @dataclass
 class Trainer:
     epochs: int
+    logging_url: str
 
 
 @dataclass

@@ -1,7 +1,9 @@
+import subprocess
 from pathlib import Path
 
 import pytorch_lightning as pl
 import torch
+from pytorch_lightning.loggers import MLFlowLogger
 from torch.utils.data import DataLoader
 
 
@@ -11,6 +13,7 @@ def train_m(
     train_loader: DataLoader,
     val_loader: DataLoader,
     save: bool = False,
+    logging_url: str = "file:./.logs/my-mlflow-logs",
 ) -> pl.LightningModule:
     """Training model on train_loader and validation part with val_loader.
 
@@ -28,17 +31,30 @@ def train_m(
         Validation dataset.
     save: bool
         Save result model. Default is False, because DVC is used
+    logging_url: str
+        Where to store mlflow logs
     Returns
     -------
     model: pl.LightningModule
         Trained model.
     """
 
+    # Git commit
+    git_commit_id = (
+        subprocess.check_output(["git", "rev-parse", "--short", "HEAD"])
+        .strip()
+        .decode("utf-8")
+    )
+
+    logger = MLFlowLogger(experiment_name=git_commit_id, tracking_uri=logging_url)
+
+    logger.log_hyperparams(dict(model.hparams).update({"git_commit_id": git_commit_id}))
+
     trainer = pl.Trainer(
         accelerator="cpu",
         devices=1,
         max_epochs=n_epochs,
-        logger=False,
+        logger=logger,
         enable_checkpointing=False,
     )
 

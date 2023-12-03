@@ -45,3 +45,4 @@ models
 submission.csv
 .vscode
 outputs
+.logs

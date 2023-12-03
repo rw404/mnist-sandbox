@@ -33,7 +33,11 @@ def train_test(config: TrainParams) -> None:
 
     print("Training...")
     model = train_m(
-        model, config.trainer.epochs, dataset.train_loader, dataset.val_loader
+        model,
+        config.trainer.epochs,
+        dataset.train_loader,
+        dataset.val_loader,
+        logging_url=config.trainer.logging_url,
     )
 
 
