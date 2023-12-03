@@ -74,10 +74,12 @@
            <div itemprop="articleBody">
              
   <h1>Source code for mnist_sandbox.train</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+<span></span><span class="kn">import</span> <span class="nn">subprocess</span>
+<span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
 
 <span class="kn">import</span> <span class="nn">pytorch_lightning</span> <span class="k">as</span> <span class="nn">pl</span>
 <span class="kn">import</span> <span class="nn">torch</span>
+<span class="kn">from</span> <span class="nn">pytorch_lightning.loggers</span> <span class="kn">import</span> <span class="n">MLFlowLogger</span>
 <span class="kn">from</span> <span class="nn">torch.utils.data</span> <span class="kn">import</span> <span class="n">DataLoader</span>
 
 
@@ -89,6 +91,7 @@
     <span class="n">train_loader</span><span class="p">:</span> <span class="n">DataLoader</span><span class="p">,</span>
     <span class="n">val_loader</span><span class="p">:</span> <span class="n">DataLoader</span><span class="p">,</span>
     <span class="n">save</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="n">logging_url</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;file:./.logs/my-mlflow-logs&quot;</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pl</span><span class="o">.</span><span class="n">LightningModule</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Training model on train_loader and validation part with val_loader.</span>
 
@@ -106,17 +109,30 @@
 <span class="sd">        Validation dataset.</span>
 <span class="sd">    save: bool</span>
 <span class="sd">        Save result model. Default is False, because DVC is used</span>
+<span class="sd">    logging_url: str</span>
+<span class="sd">        Where to store mlflow logs</span>
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    model: pl.LightningModule</span>
 <span class="sd">        Trained model.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
+    <span class="c1"># Git commit</span>
+    <span class="n">git_commit_id</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">subprocess</span><span class="o">.</span><span class="n">check_output</span><span class="p">([</span><span class="s2">&quot;git&quot;</span><span class="p">,</span> <span class="s2">&quot;rev-parse&quot;</span><span class="p">,</span> <span class="s2">&quot;--short&quot;</span><span class="p">,</span> <span class="s2">&quot;HEAD&quot;</span><span class="p">])</span>
+        <span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+        <span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s2">&quot;utf-8&quot;</span><span class="p">)</span>
+    <span class="p">)</span>
+
+    <span class="n">logger</span> <span class="o">=</span> <span class="n">MLFlowLogger</span><span class="p">(</span><span class="n">experiment_name</span><span class="o">=</span><span class="n">git_commit_id</span><span class="p">,</span> <span class="n">tracking_uri</span><span class="o">=</span><span class="n">logging_url</span><span class="p">)</span>
+
+    <span class="n">logger</span><span class="o">.</span><span class="n">log_hyperparams</span><span class="p">(</span><span class="nb">dict</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">hparams</span><span class="p">)</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s2">&quot;git_commit_id&quot;</span><span class="p">:</span> <span class="n">git_commit_id</span><span class="p">}))</span>
+
     <span class="n">trainer</span> <span class="o">=</span> <span class="n">pl</span><span class="o">.</span><span class="n">Trainer</span><span class="p">(</span>
         <span class="n">accelerator</span><span class="o">=</span><span class="s2">&quot;cpu&quot;</span><span class="p">,</span>
         <span class="n">devices</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
         <span class="n">max_epochs</span><span class="o">=</span><span class="n">n_epochs</span><span class="p">,</span>
-        <span class="n">logger</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">logger</span><span class="o">=</span><span class="n">logger</span><span class="p">,</span>
         <span class="n">enable_checkpointing</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
     <span class="p">)</span>
 
