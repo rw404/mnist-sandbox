@@ -84,4 +84,5 @@ open inference/inference_predict.png
 ```
 
 # 3rd HW
+
 Информация в файле triton.md
