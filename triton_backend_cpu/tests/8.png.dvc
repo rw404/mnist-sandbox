@@ -1,0 +1,6 @@
+outs:
+- md5: 96d24f224fe3ea3b26fe722e225c9105
+  size: 322
+  isexec: true
+  hash: md5
+  path: 8.png
