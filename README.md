@@ -82,3 +82,6 @@ python3 run_server.py
 # Step 3: check result with title of prediction
 open inference/inference_predict.png
 ```
+
+# 3rd HW
+Информация в файле triton.md
