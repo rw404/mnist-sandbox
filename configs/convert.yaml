@@ -1,0 +1,5 @@
+onnx_path:
+  save_path: triton_backend_cpu/model_repository/onnx-mnist-cpu/1/model.onnx
+
+dvc_settings:
+  pth_endpoint: sota_mnist_cnn.pth

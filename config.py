@@ -2,6 +2,11 @@ from dataclasses import dataclass
 
 
 @dataclass
+class OnnxPath:
+    save_path: str
+
+
+@dataclass
 class Dataset:
     dataset_list: str
     seed: int
@@ -48,3 +53,9 @@ class InferenceSettings:
 @dataclass
 class Inference:
     inference: InferenceSettings
+
+
+@dataclass
+class Converter:
+    onnx_path: OnnxPath
+    dvc_settings: DVCSetting

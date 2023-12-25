@@ -50,3 +50,4 @@ logger_mlflow/mlruns
 /mnist_cnn.onnx
 debug.ipynb
 inference/inference_predict.png
+triton_backend_cpu\model_repository\onnx-mnist-cpu\1
